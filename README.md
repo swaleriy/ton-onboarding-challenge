@@ -1,8 +1,11 @@
 # TON Onboarding Challenge Boilerplate
 
-Here you can become a true TVM Developer on the most advanced asynchronous blockchain in the world, The Open Network (TON). 
+Here you can become a true TON Developer on the most advanced asynchronous blockchain in the world, The Open Network (
+TON).
 
-You can prove your talent using the most ancient and essential way in blockchains, starting from grandpa Bitcoin! As the first miners in TON, you will go through the Proof-of-Work smart contract and finally mine a secret reward for your TON wallet.
+You can prove your talent using the most ancient and essential way in blockchains, starting from grandpa Bitcoin! As the
+first miners in TON, you will go through the Proof-of-Work smart contract and finally mine a secret reward for your TON
+wallet.
 
 ## Who already completed the challenge?
 
@@ -13,19 +16,13 @@ NFT Collection on GetGems with True TVM Developers:
 
 ## Step-by-step (simple)
 
-### Video Tutorial
-
-[![Watch the video](https://img.youtube.com/vi/wEEQLwQy30Q/0.jpg)](https://youtu.be/wEEQLwQy30Q)
-
 ### Text tutorial
 
-* [TON Onboarding Challenge](https://ton.org/docs/develop/onboarding-challenge)
-
-
+* [TON Onboarding Challenge](https://docs.ton.org/v3/guidelines/get-started-with-ton)
 
 ## Mining process (deep dive)
 
-> Feel free to use a text version of tutorial to get help 
+> Feel free to use a text version of tutorial to get help
 
 This is a NFT collection that differs from standard NFT collections in the following aspects:
 
@@ -36,7 +33,8 @@ In order to mine NFT you should send special **internal** message to collection 
 
 You can get current `pow_complexity` by calling special get-function to get mining status called `get_mining_data`
 
-It returns a [tensor](https://ton.org/docs/develop/func/types#tensor-types) with the following data: 
+It returns a [tensor](https://docs.ton.org/v3/documentation/smart-contracts/func/docs/types#tensor-types) with the
+following data:
 
 ```
 ( 
@@ -54,16 +52,16 @@ Note that `seed` is set to a random value after every successful NFT mint.
 
 Layout of proof of work Cell:
 
-| Field      | Type | Description     |
-| :---        |    :----:   |          ---: |
-| op      | uint32       | Always 0x4d696e65    |
-| expire   | uint32        | Unixtime of message expiration (should be some unixtime in future, but not greater than ~17 minutes in future.)     |
-| whom   | std_addr        | Address of the miner (NFT owner would be set to this address)      |
-| rdata1   | uint256        | Some random data      |
-| seed | uint128 | Current seed |
-| rdata2 | uint256 | Should equal to rdata1 |
+| Field  |   Type   |                                                                                                     Description |
+|:-------|:--------:|----------------------------------------------------------------------------------------------------------------:|
+| op     |  uint32  |                                                                                               Always 0x4d696e65 |
+| expire |  uint32  | Unixtime of message expiration (should be some unixtime in future, but not greater than ~17 minutes in future.) |
+| whom   | std_addr |                                                   Address of the miner (NFT owner would be set to this address) |
+| rdata1 | uint256  |                                                                                                Some random data |
+| seed   | uint128  |                                                                                                    Current seed |
+| rdata2 | uint256  |                                                                                          Should equal to rdata1 |
 
-Proof of work is considered to be valid only if: 
+Proof of work is considered to be valid only if:
 
 - rdata1 equals to rdata2
 - (expire - now()) < 1024
@@ -73,3 +71,10 @@ Proof of work is considered to be valid only if:
 Basically you need to find such value for `rdata1` so that hash of the Cell is less than current `pow_complexity`
 
 After this an `internal` message with found Cell should be sent to collection with ~0.05 TON in order to mint NFT.
+
+## Project structure
+
+- `contracts` - source code of all the smart contracts of the project and their dependencies.
+- `wrappers` - wrapper classes (implementing `Contract` from ton-core) for the contracts, including any [de]serialization primitives and compilation functions.
+- `tests` - tests for the contracts.
+- `scripts` - scripts used by the project, mainly the deployment scripts.
